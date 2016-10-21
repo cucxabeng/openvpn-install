@@ -68,6 +68,8 @@ if [[ "$IP" = "" ]]; then
 		IP=$(wget -qO- ipv4.icanhazip.com)
 fi
 
+EMAIL=cucxabeng@gmail.com
+
 if [[ -e /etc/openvpn/server.conf ]]; then
 	while :
 	do
@@ -93,6 +95,8 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 			newclient "$CLIENT"
 			echo ""
 			echo "Client $CLIENT added, certs available at ~/$CLIENT.ovpn"
+			echo "This is the message body" | mutt -a "/root/$CLIENT.ovpn" -s "Open VPN $IP" -- $EMAIL
+
 			exit
 			;;
 			2)
@@ -387,5 +391,5 @@ verb 3" > /etc/openvpn/client-common.txt
 	echo ""
 	echo "Your client config is available at ~/$CLIENT.ovpn"
 	echo "If you want to add more clients, you simply need to run this script another time!"
-	echo "This is the message body" | mutt -a "/root/$CLIENT.ovpn" -s "Open VPN $IP" -- cucxabeng@gmail.com 
+	echo "This is the message body" | mutt -a "/root/$CLIENT.ovpn" -s "Open VPN $IP" -- $EMAIL 
 fi
