@@ -79,7 +79,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 		echo "   2) Revoke existing user cert"
 		echo "   3) Remove OpenVPN"
 		echo "   4) Exit"
-		read -p "Select an option [1-4]: " 1 option
+		read -p "Select an option [1-4]: " option
 		case $option in
 			1) 
 			echo ""
