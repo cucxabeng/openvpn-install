@@ -85,7 +85,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 			echo ""
 			echo "Tell me a name for the client cert"
 			echo "Please, use one word only, no special characters"
-			client="client_$IP"
+			CLIENT="client"$IP
 			# read -p "Client name: " -e -i client CLIENT
 			cd /etc/openvpn/easy-rsa/
 			./easyrsa build-client-full $CLIENT nopass
@@ -385,5 +385,5 @@ verb 3" > /etc/openvpn/client-common.txt
 	echo ""
 	echo "Your client config is available at ~/$CLIENT.ovpn"
 	echo "If you want to add more clients, you simply need to run this script another time!"
-	echo "This is the message body" | mutt -a "/root/"$client -s "Open VPN $IP" -- cucxabeng@gmail.com 
+	echo "This is the message body" | mutt -a "/root/$CLIENT" -s "Open VPN $IP" -- cucxabeng@gmail.com 
 fi
